@@ -16,42 +16,17 @@ public class FreeCamera : MonoBehaviour
 	private float rotY;
 	private Vector3 direction;
 
-	void Start()
+	private void Start()
 	{
 		body = GetComponent<Rigidbody>();
 		body.freezeRotation = true;
 		body.useGravity = false;
 		body.mass = 0.1f;
-		body.drag = 10;
+		body.linearDamping = 10;
+	}	
 
-		//SetBoxColliderSize();
-	}
 
-	/*public void SetBoxColliderSize()
-	{
-		Vector3 point_A = mainCamera.ScreenPointToRay(Vector2.zero).origin;
-
-		// определяем размер коллайдера по ширине экрана
-		Vector3 point_B = mainCamera.ScreenPointToRay(new Vector2(Screen.width, 0)).origin;
-
-		float dist = Vector3.Distance(point_A, point_B);
-		boxCollider.size = new Vector3(dist, boxCollider.size.y, 0.1f);
-
-		// определяем размер бокса по высоте
-		point_B = mainCamera.ScreenPointToRay(new Vector2(0, Screen.height)).origin;
-
-		dist = Vector3.Distance(point_A, point_B);
-		boxCollider.size = new Vector3(boxCollider.size.x, dist, 0.1f);
-
-		boxCollider.center = new Vector3(0, 0, mainCamera.nearClipPlane);
-	}*/
-
-	void Update()
-	{
-		Move();
-	}
-
-	void Move()
+    public void Move()
 	{
 		float h = Input.GetAxis("Horizontal");
 		float v = Input.GetAxis("Vertical");
@@ -73,8 +48,8 @@ public class FreeCamera : MonoBehaviour
 	{
 		body.AddForce(direction.normalized * speed * acceleration);
 
-		if (Mathf.Abs(body.velocity.x) > speed) body.velocity = new Vector3(Mathf.Sign(body.velocity.x) * speed, body.velocity.y, body.velocity.z);
-		if (Mathf.Abs(body.velocity.z) > speed) body.velocity = new Vector3(body.velocity.x, body.velocity.y, Mathf.Sign(body.velocity.z) * speed);
-		if (Mathf.Abs(body.velocity.y) > speed) body.velocity = new Vector3(body.velocity.x, Mathf.Sign(body.velocity.y) * speed, body.velocity.z);
+		if (Mathf.Abs(body.linearVelocity.x) > speed) body.linearVelocity = new Vector3(Mathf.Sign(body.linearVelocity.x) * speed, body.linearVelocity.y, body.linearVelocity.z);
+		if (Mathf.Abs(body.linearVelocity.z) > speed) body.linearVelocity = new Vector3(body.linearVelocity.x, body.linearVelocity.y, Mathf.Sign(body.linearVelocity.z) * speed);
+		if (Mathf.Abs(body.linearVelocity.y) > speed) body.linearVelocity = new Vector3(body.linearVelocity.x, Mathf.Sign(body.linearVelocity.y) * speed, body.linearVelocity.z);
 	}
 }
