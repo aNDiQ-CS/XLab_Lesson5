@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private FreeCamera m_camera; //m - member
     [SerializeField] private GameObject m_UI_Panel;
     [SerializeField] private CloudController m_CloudController;
+    [SerializeField] private ToolChangeController m_ToolChangeController;
 
     private void Update()
     {
@@ -18,6 +19,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             m_CloudController.MoveNext();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            m_ToolChangeController.ChangeTools();
         }
     }
 }
