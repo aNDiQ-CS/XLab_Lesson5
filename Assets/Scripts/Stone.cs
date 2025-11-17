@@ -10,7 +10,17 @@ namespace Golf
 
         [SerializeField] private LayerMask m_layerMask;
 
-        
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.GetComponent<Club>())
+            {
+                Hit?.Invoke(this);
+            }
+            else
+            {
+                Missed?.Invoke(this);
+            }
+        }
 
         private void LogHit(Collision collision)
         {

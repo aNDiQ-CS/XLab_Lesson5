@@ -1,15 +1,23 @@
+using TMPro;
 using UnityEngine;
 
 namespace Golf
 {
     public class LevelController : MonoBehaviour
     {
+        [Header("Game logic")]
         [SerializeField] private int m_missedCount;
         [SerializeField, Min(0.1f)] private float m_spawnRate = 1f;
         [SerializeField] private StoneSpawner m_stoneSpawner;
 
+        [Header("UI")]
+        [SerializeField] private TMP_Text m_scoreText;
+
+        public long Score { get; private set; } = 0;
+
         private float m_time;
         private int m_currentMissedCount;
+        
 
         private void Awake()
         {
@@ -44,11 +52,14 @@ namespace Golf
         }
 
         private void OnHitStone(Stone stone)
-        {
+        { 
             stone.Hit -= OnHitStone;
             stone.Missed -= OnMissedStone;
 
-            Debug.Log("Score: ");
+            Score++;
+
+            m_scoreText.text = "Score: " + Score;
+            Debug.Log("Score: " + Score);
         }
     }
 }

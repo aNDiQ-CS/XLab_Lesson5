@@ -27,8 +27,8 @@ namespace Golf
             }
 
             transform.localEulerAngles = angles;
-            m_direction = (m_point.position - m_lastPointPosition).normalized;
-            m_lastPointPosition = angles;
+            m_direction = (m_point.position - m_lastPointPosition).normalized;    
+            m_lastPointPosition = m_point.position;
         }
 
         private float Rotate(float angleZ, float target)
@@ -43,9 +43,9 @@ namespace Golf
 
             if (collision.gameObject.TryGetComponent<Stone>(out Stone stone))
             {
-                stone.GetComponent<Rigidbody>().AddForce(m_direction * m_power, ForceMode.Force);
+                stone.GetComponent<Rigidbody>().AddForce(m_direction * m_power, ForceMode.Force);                
                 // collision.impulse;
-            }            
+            }
         }
     }
 }
