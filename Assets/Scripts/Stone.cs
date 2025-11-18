@@ -3,12 +3,20 @@ using UnityEngine;
 
 namespace Golf
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class Stone : MonoBehaviour
     {
         public event Action<Stone> Hit;
         public event Action<Stone> Missed;
 
         [SerializeField] private LayerMask m_layerMask;
+
+        private Rigidbody m_rigidbody;
+
+        private void Awake()
+        {
+            m_rigidbody = GetComponent<Rigidbody>();
+        }
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -21,6 +29,8 @@ namespace Golf
                 Missed?.Invoke(this);
             }
         }
+
+        public void AddForce(Vector3 force) => m_rigidbody.AddForce(force, ForceMode.Force);
 
         private void LogHit(Collision collision)
         {
