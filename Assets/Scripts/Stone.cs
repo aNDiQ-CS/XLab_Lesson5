@@ -9,13 +9,18 @@ namespace Golf
         public event Action<Stone> Hit;
         public event Action<Stone> Missed;
 
+        [SerializeField] private StoneData[] m_data;
         [SerializeField] private LayerMask m_layerMask;
 
         private Rigidbody m_rigidbody;
+        private StoneData m_currentData;
+
+        public int score { get; private set; }
 
         private void Awake()
         {
             m_rigidbody = GetComponent<Rigidbody>();
+            m_currentData = m_data[UnityEngine.Random.Range(0, m_data.Length)];
         }
 
         private void OnCollisionEnter(Collision collision)

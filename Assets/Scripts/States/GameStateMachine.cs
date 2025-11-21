@@ -4,17 +4,16 @@ namespace Golf
 {
     public class GameStateMachine : MonoBehaviour
     {
-        [SerializeField] private MainMenuState m_mainMenuState;
-        [SerializeField] private GameplayState m_gameplayState;
-        [SerializeField] private BootstrapState m_bootstrapState;
-        [SerializeField] private GameOverState m_gameoverState;
+        [SerializeField] private StateBase[] m_states;
+        
+        private StateBase m_currentState;
 
         private void Awake()
         {
-            m_mainMenuState.Init(this);
-            m_gameplayState.Init(this);
-            m_bootstrapState.Init(this);
-            m_gameoverState.Init(this);
+            foreach (StateBase state in m_states)
+            {
+                state.Init(this);
+            }            
         }
 
         private void Start()
@@ -24,28 +23,41 @@ namespace Golf
 
         public void Enter<T>()
         {
-            if (typeof(T) == typeof(BootstrapState))
+            m_currentState?.Exit();
+
+            foreach (StateBase state in m_states)
             {
-                m_bootstrapState.Enter();
+                if (state.GetType() == typeof(T))
+                {
+                    m_currentState = state;
+                    state.Enter();
+
+                    break;
+                }
             }
-            else if (typeof(T) == typeof(GameplayState))
-            {
-                m_bootstrapState.Exit();
-                m_mainMenuState.Exit();
-                m_gameoverState.Exit();
-                m_gameplayState.Enter();                
-            }
-            else if (typeof(T) == typeof(MainMenuState))
-            {
-                m_gameplayState.Exit();
-                m_mainMenuState.Enter();
-                m_gameoverState.Exit();
-            }
-            else if (typeof(T) == typeof(GameOverState))
-            {
-                m_gameplayState.Exit();
-                m_gameoverState.Enter();
-            }
+
+            //if (typeof(T) == typeof(BootstrapState))
+            //{
+            //    m_bootstrapState.Enter();
+            //}
+            //else if (typeof(T) == typeof(GameplayState))
+            //{
+            //    m_bootstrapState.Exit();
+            //    m_mainMenuState.Exit();
+            //    m_gameoverState.Exit();
+            //    m_gameplayState.Enter();                
+            //}
+            //else if (typeof(T) == typeof(MainMenuState))
+            //{
+            //    m_gameplayState.Exit();
+            //    m_mainMenuState.Enter();
+            //    m_gameoverState.Exit();
+            //}
+            //else if (typeof(T) == typeof(GameOverState))
+            //{
+            //    m_gameplayState.Exit();
+            //    m_gameoverState.Enter();
+            //}
         }
     }
 }
