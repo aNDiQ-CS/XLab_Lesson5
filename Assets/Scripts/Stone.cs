@@ -15,12 +15,17 @@ namespace Golf
         private Rigidbody m_rigidbody;
         private StoneData m_currentData;
 
-        public int score { get; private set; }
+        public int score
+        {
+            get;
+            private set;
+        }
 
         private void Awake()
         {
             m_rigidbody = GetComponent<Rigidbody>();
             m_currentData = m_data[UnityEngine.Random.Range(0, m_data.Length)];
+            score = m_currentData.score;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -35,15 +40,6 @@ namespace Golf
             }
         }
 
-        public void AddForce(Vector3 force) => m_rigidbody.AddForce(force, ForceMode.Force);
-
-        private void LogHit(Collision collision)
-        {
-            var hitLayerMask = 1 << collision.gameObject.layer;
-            if ((m_layerMask.value & hitLayerMask) != 0)
-            {
-                Debug.Log(gameObject.name + " hit " + collision.collider.name + ":" + collision.gameObject.layer);
-            }
-        }
+        public void AddForce(Vector3 force) => m_rigidbody.AddForce(force, ForceMode.Force);        
     }
 }
