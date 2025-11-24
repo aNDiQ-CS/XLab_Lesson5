@@ -8,7 +8,7 @@ namespace Golf
         public event Action<int> ScoreChanged;
         public event Action<int> HighscoreChanged;
 
-        private int m_score;
+        private int m_score;        
 
         public int Score { get => m_score; private set
             {

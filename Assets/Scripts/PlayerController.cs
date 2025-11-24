@@ -5,11 +5,15 @@ namespace Golf
 {
     public class PlayerController : MonoBehaviour
     {
+        public event Action Punish;
+
         [SerializeField] private Club m_club;
         [SerializeField] private StoneSpawner m_stoneSpawner;
+        [SerializeField] private int m_maxTimePunishment = 5;
 
         [SerializeField] private EventTrigger m_hitButton;
 
+        private float m_timePunishment;
         private bool m_isDown;
 
         private void Start()
@@ -25,27 +29,32 @@ namespace Golf
 
             m_hitButton.triggers.Add(entryDown);
             m_hitButton.triggers.Add(entryUp);
-        }        
+        }
+
+        public void Reset()
+        {
+            Up();
+            m_club.ResetPosition();
+            m_timePunishment = 0;
+        }
 
         private void Update()
         {
             if (m_isDown)
             {
+                m_timePunishment += Time.deltaTime;
+                if (m_timePunishment > m_maxTimePunishment)
+                {
+                    Punish?.Invoke();
+                    Reset();
+                }
                 m_club.Down();
             }
             else
             {
+                m_timePunishment = 0;
                 m_club.Up();
             }
-
-            //if (Input.GetKey(KeyCode.RightArrow))
-            //{
-            //    m_club.Down();
-            //}
-            //else
-            //{
-            //    m_club.Up();
-            //}
         }        
 
         private void Down()

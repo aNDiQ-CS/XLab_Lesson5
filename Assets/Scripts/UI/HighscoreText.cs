@@ -9,7 +9,7 @@ namespace Golf
     {
         [SerializeField] private TMP_Text m_text;
         [SerializeField] private ScoreManager m_scoreManager;
-        [SerializeField] private string m_format;
+        //[SerializeField] private string m_format;
 
         // При инициализации скрипта, при изменении значений
         private void OnValidate()
@@ -18,6 +18,11 @@ namespace Golf
             {
                 m_text = GetComponent<TMP_Text>();
             }
+        }
+
+        private void Awake()
+        {
+            m_text.text = "Highscore:\n" + m_scoreManager.HighScore;
         }
 
         private void OnEnable()
@@ -32,8 +37,9 @@ namespace Golf
 
         private void OnRecordChanged(int value)
         {
-            m_format ??= string.Empty;
-            m_text.text = string.Format(m_format, value.ToString());             
+            //m_format ??= string.Empty;
+            m_text.text = "Highscore:\n" + m_scoreManager.HighScore + "\nLast Score:\n" + value;
+            //m_text.text = string.Format(m_format, value.ToString());             
         }
     }
 }

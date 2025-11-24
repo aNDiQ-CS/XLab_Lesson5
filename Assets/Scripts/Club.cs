@@ -9,6 +9,7 @@ namespace Golf
         [SerializeField] private float m_minAngleZ = -30;
         [SerializeField] private float m_maxAngleZ = 30;
         [SerializeField, Min(0)] private float m_speed;
+        [SerializeField] private AudioSource m_audioSource;
 
         private bool m_isDown;
         private Vector3 m_lastPointPosition;
@@ -37,12 +38,19 @@ namespace Golf
             if (collision.gameObject.TryGetComponent<Stone>(out Stone stone))
             {
                 stone.AddForce(m_power * m_direction);
+                m_audioSource.Play();
             }
         }
 
         public void Down() => m_isDown = true;
         public void Up() => m_isDown = false;
 
+        public void ResetPosition()
+        {
+            Vector3 angle = new Vector3(0, 0, m_maxAngleZ);
+            transform.localEulerAngles = angle;
+            Up();
+        }
 
         private float Rotate(float angleZ, float target)
         {

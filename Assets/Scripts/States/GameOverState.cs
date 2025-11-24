@@ -10,6 +10,8 @@ namespace Golf
         [SerializeField] private TextMeshProUGUI m_scoreText;
         [SerializeField] private Button m_backButton;
         [SerializeField] private ScoreManager m_scoreManager;
+        [SerializeField] private LevelController m_levelController;
+        [SerializeField] private PlayerController m_playerController;
 
         private GameStateMachine m_gameStateMachine;
 
@@ -31,13 +33,15 @@ namespace Golf
 
         public override void Exit()
         {
+            m_playerController.Reset();
+
+            m_levelController.ResetMissedCount();
             m_gameOverPanel.gameObject.SetActive(false);
             m_backButton?.onClick.RemoveListener(OnClicked);
         }
 
         private void OnClicked()
-        {
-            Debug.Log("Clicik");
+        {            
             m_gameStateMachine.Enter<MainMenuState>();
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,12 @@ namespace Golf
         [SerializeField] private Button m_playButton;
         [SerializeField] private Button m_highscoreButton;
 
-        private GameStateMachine m_gameStateMachine;
+        [Header("Cinemachine Cameras")]
+        [SerializeField] private CameraSwitcher m_cameraSwitcher;
+        [SerializeField] private CinemachineCamera m_fromCamera;
+        [SerializeField] private CinemachineCamera m_toCamera;
+
+        private GameStateMachine m_gameStateMachine;        
 
         public override void Init(GameStateMachine gameStateMachine)
         {
@@ -39,6 +45,8 @@ namespace Golf
 
         private void OnHighscoreButtonClicked()
         {
+            // Я бы это переделал на более универсальное решение, но времени неть
+            m_cameraSwitcher.SwitchCamera(m_fromCamera, m_toCamera);
             m_gameStateMachine.Enter<HighscoreState>();
         }
     }

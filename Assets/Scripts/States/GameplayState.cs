@@ -44,7 +44,7 @@ namespace Golf
         }
         private void OnScoreChanged(int score)
         {
-            m_scoreText.text = score.ToString();
+            m_scoreText.text = "Score: " + score.ToString();
         }
 
         private void OnFinished()
